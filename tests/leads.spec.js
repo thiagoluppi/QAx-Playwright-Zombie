@@ -14,7 +14,15 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Adding Leads', () => {
   test('deve cadastrar um lead na fila de espera @temp', async ({ page }) => {
-    await page.getByRole("button", { name: "Aperte o play... se tiver coragem" }).click()
+    await page.getByRole("button", { name: /Aperte o play/ }).click()
+
+    await expect(page.getByTestId("modal")
+      .getByRole("heading"))
+      .toHaveText("Fila de espera")
+
+    await page.getByPlaceholder("Seu nome completo").fill("Thiago M. Luppi")
+    await page.getByPlaceholder("Seu email principal").fill("softykitty@icloud.com")
+
     await page.waitForTimeout(10000)
   })
 })
