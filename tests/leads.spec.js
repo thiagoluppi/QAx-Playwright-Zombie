@@ -24,9 +24,19 @@ test.describe('Adding Leads', () => {
     await page.getByPlaceholder("Seu email principal").fill("softykitty@icloud.com")
 
     await page.getByTestId("modal")
-    .getByText("Quero entrar na fila!")
-    .click()
+      .getByText("Quero entrar na fila!")
+      .click()
 
-    await page.waitForTimeout(5000)
+    // Explicação no README.md
+    // await page.getByText("seus dados conosco").click()
+    // const content = await page.content()
+    // console.log(content)
+
+    const message = "Agradecemos por compartilhar seus dados conosco. Em breve, nossa equipe entrará em contato!"
+    await expect(page.locator(".toast")).toHaveText(message)
+
+    await expect(page.locator(".toast")).toBeHidden({timeout: 5000})
+
+    // await page.waitForTimeout(5000)
   })
 })

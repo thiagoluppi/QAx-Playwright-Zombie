@@ -27,6 +27,22 @@ Os testes nesse conjunto verificam a funcionalidade de cadastro e autenticação
     - Ação: Preencher o campo de email com um formato inválido e preencher o campo de nome corretamente, depois clicar em "Cadastrar".
     - Resultado esperado: Uma mensagem de erro é exibida, informando que o formato do email é inválido.
 
+
+____________________________________________________________________________________________________________________________________________
+### Aula - Elementos Flutuantes.
+
+Dica interessante do Papito:
+
+Ao tentar mapear o elemento modal/toast que tem um tempo de exibição muito curto, o professor passou um pequeno truque que consiste em encontrar o texto que o elemento apresenta e clicar no elemento para então pegar o código html da página (que como clicamos no toast, o código html vai ser o do toast) no momento exato do click. Para pegar o texto ele usou a --ui do playwright: `npx playwright test --ui`, assim é possível ver o texto e criar um seletor: `await page.getByText("seus dados conosco").click()`.
+Após clicar, agora pegamos o conteudo da página (toast) com o método: .content: `const content = await page.content()`. Agora com o html nós printamos no console: `console.log(content)`
+
+Copiar todo o texto impresso no console
+
+Agora na raiz do projeto, criar um arquivo chamado: `modal.html` e colar todo o conteudo copiado do console.
+
+Dessa forma agora é possível observar com calma todo o html para criar um seletor robusto, que nesse caso será a classe `.toast`. Agora vamos validar se no elemento da classe `.toast` contem o texto: `Agradecemos por compartilhar seus dados conosco. Em breve, nossa equipe entrará em contato!`.
+____________________________________________________________________________________________________________________________________________
+
 ### Autenticação (Login)
 
 - Login com credenciais válidas
