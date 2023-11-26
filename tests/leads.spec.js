@@ -23,6 +23,10 @@ test.describe('Adding Leads', () => {
     await page.getByPlaceholder("Seu nome completo").fill("Thiago M. Luppi")
     await page.getByPlaceholder("Seu email principal").fill("softykitty@icloud.com")
 
-    await page.waitForTimeout(10000)
+    await page.getByTestId("modal")
+    .getByText("Quero entrar na fila!")
+    .click()
+
+    await page.waitForTimeout(5000)
   })
 })
