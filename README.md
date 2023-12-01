@@ -42,7 +42,21 @@ Agora na raiz do projeto, criar um arquivo chamado: `modal.html` e colar todo o 
 
 Dessa forma agora é possível observar com calma todo o html para criar um seletor robusto, que nesse caso será a classe `.toast`. Agora vamos validar se no elemento da classe `.toast` contem o texto: `Agradecemos por compartilhar seus dados conosco. Em breve, nossa equipe entrará em contato!`.
 ____________________________________________________________________________________________________________________________________________
+### Aula - Elementos de Página Solta.
 
+Eu criei um shell script para poder definir o número de workers que seriam executadas na executação dos testes @regression: run_regression.sh
+
+Esse script basicamente verifica se existe uma variavel definida chamada "WORKERS" no comando do console: se não existir ele faz o comando para executar os testes regressivos normalmente:
+- npx playwright test --grep @regression
+se existir, ele faz o comando com os workers definidos:
+- npx playwright test --grep @regression --workers=$WORKERS
+
+Para que isso funcionasse eu tive que mudar também o script do regressivo no arquivo package.json:
+"scripts": {
+    "temp": "npx playwright test --grep @temp",
+    "regression": "./run_regression.sh"
+  }
+____________________________________________________________________________________________________________________________________________
 ### Autenticação (Login)
 
 - Login com credenciais válidas
