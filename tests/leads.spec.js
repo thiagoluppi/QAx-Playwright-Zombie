@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto(BASE_URL)
 })
 
-test.describe('Adding Leads', () => {
+test.describe('Adicionando Leads', () => {
 
   test('deve cadastrar um lead na fila de espera @regression', async ({ page }) => {
     await page.getByRole("button", { name: /Aperte o play/ }).click()
@@ -41,7 +41,7 @@ test.describe('Adding Leads', () => {
     // await page.waitForTimeout(5000)
   })
 
-  test('não deve cadastrar com e-mail incorreto @temp', async ({ page }) => {
+  test('não deve cadastrar com e-mail incorreto @regression', async ({ page }) => {
     await page.getByRole("button", { name: /Aperte o play/ }).click()
 
     await expect(page.getByTestId("modal")
@@ -56,6 +56,60 @@ test.describe('Adding Leads', () => {
       .click()
 
     await expect(page.locator(".alert")).toHaveText("Email incorreto")
+  })
+
+  test('não deve cadastrar com campo nome vazio @regressive', async ({ page }) => {
+    await page.getByRole("button", { name: /Aperte o play/ }).click()
+
+    await expect(page.getByTestId("modal")
+      .getByRole("heading"))
+      .toHaveText("Fila de espera")
+
+    // await page.getByPlaceholder("Seu nome completo").fill("Thiago M. Luppi")
+    await page.getByPlaceholder("Seu email principal").fill("softykitty@icloud.com")
+
+    await page.getByTestId("modal")
+      .getByText("Quero entrar na fila!")
+      .click()
+
+    await expect(page.locator(".alert")).toHaveText("Campo obrigatório")
+  })
+
+  test('não deve cadastrar com campo e-mail vazio @regression', async ({ page }) => {
+    await page.getByRole("button", { name: /Aperte o play/ }).click()
+
+    await expect(page.getByTestId("modal")
+      .getByRole("heading"))
+      .toHaveText("Fila de espera")
+
+    await page.getByPlaceholder("Seu nome completo").fill("Thiago M. Luppi")
+    // await page.getByPlaceholder("Seu email principal").fill("softykitty@icloud.com")
+
+    await page.getByTestId("modal")
+      .getByText("Quero entrar na fila!")
+      .click()
+
+    await expect(page.locator(".alert")).toHaveText("Campo obrigatório")
+  })
+
+  test('não deve cadastrar com ambos os campos nome e e-mail vazios @temp', async ({ page }) => {
+    await page.getByRole("button", { name: /Aperte o play/ }).click()
+
+    await expect(page.getByTestId("modal")
+      .getByRole("heading"))
+      .toHaveText("Fila de espera")
+
+    // await page.getByPlaceholder("Seu nome completo").fill("Thiago M. Luppi")
+    // await page.getByPlaceholder("Seu email principal").fill("softykitty@icloud.com")
+
+    await page.getByTestId("modal")
+      .getByText("Quero entrar na fila!")
+      .click()
+
+    await expect(page.locator(".alert")).toHaveText([
+      "Campo obrigatório",
+      "Campo obrigatório"
+    ])
   })
 })
 
