@@ -44,18 +44,21 @@ Dessa forma agora é possível observar com calma todo o html para criar um sele
 ____________________________________________________________________________________________________________________________________________
 ### Aula - Elementos de Página Solta.
 
-Eu criei um shell script para poder definir o número de workers que seriam executadas na executação dos testes @regression: run_regression.sh
+Eu criei um shell script para poder definir o número de workers que seriam executadas na executação dos testes @regression: `run_regression.sh`
 
-Esse script basicamente verifica se existe uma variavel definida chamada "WORKERS" no comando do console: se não existir ele faz o comando para executar os testes regressivos normalmente:
+Esse script basicamente verifica se existe uma variavel definida chamada `WORKERS` no comando do console: se não existir ele faz o comando para executar os testes regressivos normalmente:
 - npx playwright test --grep @regression
-se existir, ele faz o comando com os workers definidos:
+
+Se a variável existir, então ele executa com a variável e o numero de workers definidos:
 - npx playwright test --grep @regression --workers=$WORKERS
 
-Para que isso funcionasse eu tive que mudar também o script do regressivo no arquivo package.json:
+Para que isso funcionasse eu tive que mudar também o script do regressivo no arquivo `package.json`:
+```
 "scripts": {
     "temp": "npx playwright test --grep @temp",
     "regression": "./run_regression.sh"
-  }
+}
+```
 ____________________________________________________________________________________________________________________________________________
 ### Autenticação (Login)
 
