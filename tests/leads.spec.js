@@ -1,9 +1,16 @@
 // @ts-check
-const { test, expect } = require("@playwright/test")
+const { test } = require("@playwright/test")
+const { LandingPage } = require("./pages/LandingPage")
+const { ToastPage } = require("./components/ToastPage")
 
 require('dotenv').config()
 
 const BASE_URL = process.env.BASE_URL
+const nome = process.env.NOME
+const email = process.env.EMAIL
+const emailIncorreto = process.env.EMAIL_INCORRETO
+const nomeVazio = process.env.NOME_VAZIO
+const emailVazio = process.env.EMAIL_VAZIO
 
 test.beforeEach(async ({ page }) => {
   if (!BASE_URL) {
@@ -15,102 +22,64 @@ test.beforeEach(async ({ page }) => {
 test.describe('Adicionando Leads', () => {
 
   test('deve cadastrar um lead na fila de espera @regression', async ({ page }) => {
-    await page.getByRole("button", { name: /Aperte o play/ }).click()
+    const landingPage = new LandingPage(page)
+    const toastPage = new ToastPage(page)
 
-    await expect(page.getByTestId("modal")
-      .getByRole("heading"))
-      .toHaveText("Fila de espera")
+    await landingPage.clicarNoBotaoAperteOPlay()
 
-    await page.getByPlaceholder("Informe seu nome").fill("Thiago M. Luppi")
-    await page.getByPlaceholder("Informe seu email").fill("softykitty@icloud.com")
+    await landingPage.cadastrarNovoLead(nome, email)
 
-    await page.getByTestId("modal")
-      .getByText("Quero entrar na fila!")
-      .click()
-
-    // Explicação no README.md
+    // Explicação no README.md para pegar o html do Toast explicado pelo professor na aula - Elementos Flutuantes.
     // await page.getByText("seus dados conosco").click()
     // const content = await page.content()
     // console.log(content)
 
     const message = "Agradecemos por compartilhar seus dados conosco. Em breve, nossa equipe entrará em contato!"
-    await expect(page.locator(".toast")).toHaveText(message)
+    await toastPage.checkTtoastMessage(message)
 
-    await expect(page.locator(".toast")).toBeHidden({ timeout: 5000 })
-
-    // await page.waitForTimeout(5000)
+    await toastPage.checkIfToastIsHidden()
   })
 
   test('não deve cadastrar com e-mail incorreto @regression', async ({ page }) => {
-    await page.getByRole("button", { name: /Aperte o play/ }).click()
+    const landingPage = new LandingPage(page)
 
-    await expect(page.getByTestId("modal")
-      .getByRole("heading"))
-      .toHaveText("Fila de espera")
+    await landingPage.clicarNoBotaoAperteOPlay()
 
-    await page.getByPlaceholder("Informe seu nome").fill("Thiago M. Luppi")
-    await page.getByPlaceholder("Informe seu email").fill("softykitty.com")
+    await landingPage.cadastrarNovoLead(nome, emailIncorreto)
 
-    await page.getByTestId("modal")
-      .getByText("Quero entrar na fila!")
-      .click()
-
-    await expect(page.locator(".alert")).toHaveText("Email incorreto")
+    await landingPage.checkAlertText("Email incorreto")
   })
 
   test('não deve cadastrar com campo nome vazio @regression', async ({ page }) => {
-    await page.getByRole("button", { name: /Aperte o play/ }).click()
+    const landingPage = new LandingPage(page)
 
-    await expect(page.getByTestId("modal")
-      .getByRole("heading"))
-      .toHaveText("Fila de espera")
+    await landingPage.clicarNoBotaoAperteOPlay()
 
-    // await page.getByPlaceholder("Informe seu nome").fill("Thiago M. Luppi")
-    await page.getByPlaceholder("Informe seu email").fill("softykitty@icloud.com")
+    await landingPage.cadastrarNovoLead(nomeVazio, email)
 
-    await page.getByTestId("modal")
-      .getByText("Quero entrar na fila!")
-      .click()
-
-    await expect(page.locator(".alert")).toHaveText("Campo obrigatório")
+    await landingPage.checkAlertText(["Campo obrigatório"])
   })
 
   test('não deve cadastrar com campo e-mail vazio @regression', async ({ page }) => {
-    await page.getByRole("button", { name: /Aperte o play/ }).click()
+    const landingPage = new LandingPage(page)
 
-    await expect(page.getByTestId("modal")
-      .getByRole("heading"))
-      .toHaveText("Fila de espera")
+    await landingPage.clicarNoBotaoAperteOPlay()
 
-    await page.getByPlaceholder("Informe seu nome").fill("Thiago M. Luppi")
-    // await page.getByPlaceholder("Informe seu email").fill("softykitty@icloud.com")
+    await landingPage.cadastrarNovoLead(nome, emailVazio)
 
-    await page.getByTestId("modal")
-      .getByText("Quero entrar na fila!")
-      .click()
-
-    await expect(page.locator(".alert")).toHaveText("Campo obrigatório")
+    await landingPage.checkAlertText(["Campo obrigatório"])
   })
 
   test('não deve cadastrar com ambos os campos nome e e-mail vazios @regression', async ({ page }) => {
-    await page.getByRole("button", { name: /Aperte o play/ }).click()
+    const landingPage = new LandingPage(page)
 
-    await expect(page.getByTestId("modal")
-      .getByRole("heading"))
-      .toHaveText("Fila de espera")
+    await landingPage.clicarNoBotaoAperteOPlay()
 
-    // await page.getByPlaceholder("Informe seu nome").fill("Thiago M. Luppi")
-    // await page.getByPlaceholder("Informe seu email").fill("softykitty@icloud.com")
+    await landingPage.cadastrarNovoLead(nomeVazio, emailVazio)
 
-    await page.getByTestId("modal")
-      .getByText("Quero entrar na fila!")
-      .click()
-
-    await expect(page.locator(".alert")).toHaveText([
+    await landingPage.checkAlertText([
       "Campo obrigatório",
       "Campo obrigatório"
     ])
   })
 })
-
-
