@@ -46,6 +46,9 @@ ________________________________________________________________________________
 
 Eu criei um shell script para poder definir o número de workers que seriam executadas na executação dos testes @regression: `run_regression.sh`
 
+É preciso dar permissão de execução para o novo arquivo criado, para isso faça o comando:
+`chmod +x run_regression.sh`
+
 Esse script basicamente verifica se existe uma variavel definida chamada `WORKERS` no comando do console: se não existir ele faz o comando para executar os testes regressivos normalmente:
 - npx playwright test --grep @regression
 
