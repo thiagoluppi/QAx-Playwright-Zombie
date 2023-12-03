@@ -1,11 +1,11 @@
 // @ts-check
 const { test } = require("@playwright/test")
-const { LandingPage } = require("./pages/LandingPage")
-const { ToastPage } = require("./components/ToastPage")
+const { LandingPage } = require("../pages/LandingPage")
+const { ToastPage } = require("../components/ToastPage")
 
 require('dotenv').config()
 
-const BASE_URL = process.env.BASE_URL
+const LANDING_PAGE = process.env.BASE_URL
 const nome = process.env.NOME
 const email = process.env.EMAIL
 const emailIncorreto = process.env.EMAIL_INCORRETO
@@ -13,10 +13,10 @@ const nomeVazio = process.env.NOME_VAZIO
 const emailVazio = process.env.EMAIL_VAZIO
 
 test.beforeEach(async ({ page }) => {
-  if (!BASE_URL) {
-    throw new Error("BASE_URL is not defined in your env file");
+  if (!LANDING_PAGE) {
+    throw new Error("LANDING_PAGE is not defined in your env file")
   }
-  await page.goto(BASE_URL)
+  await page.goto(LANDING_PAGE)
 })
 
 test.describe('Adicionando Leads', () => {
