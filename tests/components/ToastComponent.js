@@ -4,7 +4,7 @@ export class ToastComponent {
 
     constructor(page) {
         this.page = page
-        this.toast = page.locator(".toast")
+        this.toast = this.page.locator(".toast")
     }
 
     async checkToastMessage(message) {
