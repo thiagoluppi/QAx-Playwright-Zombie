@@ -1,11 +1,11 @@
 // @ts-check
 const { test } = require("@playwright/test")
 const { LandingPage } = require("../pages/LandingPage")
-const { ToastPage } = require("../components/ToastPage")
+const { ToastComponent } = require("../components/ToastComponent")
 
 require('dotenv').config()
 
-const LANDING_PAGE = process.env.BASE_URL
+const LANDING_PAGE = process.env.LANDING_PAGE
 const nome = process.env.NOME
 const email = process.env.EMAIL
 const emailIncorreto = process.env.EMAIL_INCORRETO
@@ -23,7 +23,7 @@ test.describe('Adicionando Leads', () => {
 
   test('deve cadastrar um lead na fila de espera @regression', async ({ page }) => {
     const landingPage = new LandingPage(page)
-    const toastPage = new ToastPage(page)
+    const toastComponent = new ToastComponent(page)
 
     await landingPage.clicarNoBotaoAperteOPlay()
 
@@ -35,9 +35,9 @@ test.describe('Adicionando Leads', () => {
     // console.log(content)
 
     const message = "Agradecemos por compartilhar seus dados conosco. Em breve, nossa equipe entrará em contato!"
-    await toastPage.checkTtoastMessage(message)
+    await toastComponent.checkToastMessage(message)
 
-    await toastPage.checkIfToastIsHidden()
+    await toastComponent.checkIfToastIsHidden()
   })
 
   test('não deve cadastrar com e-mail incorreto @regression', async ({ page }) => {

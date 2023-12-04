@@ -1,13 +1,13 @@
 const { expect } = require("@playwright/test")
 
-export class ToastPage {
+export class ToastComponent {
 
     constructor(page) {
         this.page = page
         this.toast = page.locator(".toast")
     }
 
-    async checkTtoastMessage(message) {
+    async checkToastMessage(message) {
         await expect(this.toast).toHaveText(message)
     }
 
