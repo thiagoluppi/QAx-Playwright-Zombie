@@ -78,6 +78,13 @@ ________________________________________________________________________________
     - Ação: Informar um email não registrado e uma senha e clicar em "Login".
     - Resultado esperado: Uma mensagem de erro deve ser exibida, informando que o usuário não está registrado no sistema.
 
+____________________________________________________________________________________________________________________________________________
+### Aula - PageObjects by the book.
+
+Como o Papito está usando um elemento da página Movies para fazer a validação do login, ele resolveu remover a função que verifica se está logado da LoginPage e o colocou em uma nova page chamada MoviesPage.
+Eu, por outro lado, estou usando a própria página de login para fazer a validação de login e por isso a criação dessa página ainda não é necessária. Ao validar que o botão de login não está mais visível é igualmente possível verificar se o login ocorreu.
+____________________________________________________________________________________________________________________________________________
+
 # Admin
 
 Esses testes visam validar as operações de cadastro, busca e exclusão de filmes e séries na administração do sistema. Eles garantem que os dados sejam armazenados corretamente, que as buscas retornem resultados precisos e que a exclusão de conteúdo seja realizada sem problemas.
