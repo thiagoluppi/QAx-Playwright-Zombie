@@ -3,6 +3,8 @@ const { test } = require("@playwright/test")
 const { LandingPage } = require("../pages/LandingPage")
 const { ToastComponent } = require("../components/ToastComponent")
 
+const { faker } = require("@faker-js/faker")
+
 require('dotenv').config()
 
 const LANDING_PAGE = process.env.LANDING_PAGE
@@ -21,13 +23,35 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Adicionando Leads', () => {
 
-  test('deve cadastrar um lead na fila de espera @regression', async ({ page }) => {
+  test('deve cadastrar um lead na fila de espera @disabled', async ({ page }) => {
     const landingPage = new LandingPage(page)
     const toastComponent = new ToastComponent(page)
 
     await landingPage.clicarNoBotaoAperteOPlay()
 
     await landingPage.cadastrarNovoLead(nome, email)
+
+    // Explicação no README.md para pegar o html do Toast explicado pelo professor na aula - Elementos Flutuantes.
+    // await page.getByText("seus dados conosco").click()
+    // const content = await page.content()
+    // console.log(content)
+
+    const message = "Agradecemos por compartilhar seus dados conosco. Em breve, nossa equipe entrará em contato!"
+    await toastComponent.checkToastMessage(message)
+
+    await toastComponent.checkIfToastIsHidden()
+  })
+
+  test('deve cadastrar um lead na fila de espera usando faker @regression', async ({ page }) => {
+    const landingPage = new LandingPage(page)
+    const toastComponent = new ToastComponent(page)
+
+    const leadName = faker.person.fullName()
+    const leadEmail = faker.internet.email()
+
+    await landingPage.clicarNoBotaoAperteOPlay()
+
+    await landingPage.cadastrarNovoLead(leadName, leadEmail)
 
     // Explicação no README.md para pegar o html do Toast explicado pelo professor na aula - Elementos Flutuantes.
     // await page.getByText("seus dados conosco").click()
