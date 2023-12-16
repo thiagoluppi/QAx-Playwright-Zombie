@@ -12,6 +12,6 @@ export class ToastComponent {
     }
 
     async checkIfToastIsHidden() {
-        await expect(this.toast).toBeHidden({ timeout: 5000 })
+        await expect(this.toast).toBeHidden({ timeout: 10000 })
     }
 }

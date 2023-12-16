@@ -2,6 +2,7 @@
 const { test } = require("@playwright/test")
 const { LandingPage } = require("../pages/LandingPage")
 const { ToastComponent } = require("../components/ToastComponent")
+const { Database } = require("../database/Database")
 
 const { faker } = require("@faker-js/faker")
 
@@ -23,7 +24,12 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Adicionando Leads', () => {
 
-  test('deve cadastrar um lead na fila de espera @disabled', async ({ page }) => {
+  test('deve cadastrar um lead na fila de espera @regression', async ({ page }) => {
+
+    const db = new Database()
+
+    console.log(await db.deleteLeads())
+
     const landingPage = new LandingPage(page)
     const toastComponent = new ToastComponent(page)
 
@@ -31,12 +37,35 @@ test.describe('Adicionando Leads', () => {
 
     await landingPage.cadastrarNovoLead(nome, email)
 
-    // Explicação no README.md para pegar o html do Toast explicado pelo professor na aula - Elementos Flutuantes.
-    // await page.getByText("seus dados conosco").click()
-    // const content = await page.content()
-    // console.log(content)
-
     const message = "Agradecemos por compartilhar seus dados conosco. Em breve, nossa equipe entrará em contato!"
+    await toastComponent.checkToastMessage(message)
+
+    await toastComponent.checkIfToastIsHidden()
+
+    console.log(await db.getLeads())
+  })
+
+
+
+  test('não deve cadastrar um lead quando o e-mail já existe @regression', async ({ page }) => {
+
+    const landingPage = new LandingPage(page)
+    const toastComponent = new ToastComponent(page)
+
+    const leadName = faker.person.fullName()
+    const leadEmail = faker.internet.email()
+
+    await landingPage.clicarNoBotaoAperteOPlay()
+    await landingPage.cadastrarNovoLead(leadName, leadEmail)
+
+    if (!LANDING_PAGE) {
+      throw new Error("LANDING_PAGE is not defined in your env file")
+    }
+    await page.goto(LANDING_PAGE)
+    await landingPage.clicarNoBotaoAperteOPlay()
+    await landingPage.cadastrarNovoLead(leadName, leadEmail)
+
+    const message = "O endereço de e-mail fornecido já está registrado em nossa fila de espera."
     await toastComponent.checkToastMessage(message)
 
     await toastComponent.checkIfToastIsHidden()
