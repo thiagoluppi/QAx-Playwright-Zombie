@@ -1,8 +1,9 @@
 // @ts-check
-const { test } = require("@playwright/test")
+const { test, expect } = require("@playwright/test")
 const { LandingPage } = require("../pages/LandingPage")
 const { ToastComponent } = require("../components/ToastComponent")
 const { Database } = require("../database/Database")
+const { ZombiePlusAPI } = require("../api/ZombiePlusAPI")
 
 const { faker } = require("@faker-js/faker")
 
@@ -14,6 +15,7 @@ const email = process.env.EMAIL
 const emailIncorreto = process.env.EMAIL_INCORRETO
 const nomeVazio = process.env.NOME_VAZIO
 const emailVazio = process.env.EMAIL_VAZIO
+const APIUrl = process.env.API_URL
 
 test.beforeEach(async ({ page }) => {
   if (!LANDING_PAGE) {
@@ -23,6 +25,8 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('Adicionando Leads', () => {
+  // Se algum teste falhar, ele repete mais uma vez:
+  // test.describe.configure({ retries: 2 })
 
   test('deve cadastrar um lead na fila de espera @regression', async ({ page }) => {
 
@@ -47,23 +51,24 @@ test.describe('Adicionando Leads', () => {
 
 
 
-  test('não deve cadastrar um lead quando o e-mail já existe @regression', async ({ page }) => {
-
+  test('não deve cadastrar um lead quando o e-mail já existe @temp', async ({ page, request }) => {
     const landingPage = new LandingPage(page)
     const toastComponent = new ToastComponent(page)
+    const zombiePlusAPI = new ZombiePlusAPI(request)
 
-    const leadName = faker.person.fullName()
-    const leadEmail = faker.internet.email()
+    const db = new Database()
+
+    console.log(await db.deleteLeads())
+
+    // const leadName = faker.person.fullName()
+    // const leadEmail = faker.internet.email()
+
+    const newLead = await zombiePlusAPI.postAPIZombie(APIUrl, nome, email)
+
+    expect(newLead.ok()).toBeTruthy()
 
     await landingPage.clicarNoBotaoAperteOPlay()
-    await landingPage.cadastrarNovoLead(leadName, leadEmail)
-
-    if (!LANDING_PAGE) {
-      throw new Error("LANDING_PAGE is not defined in your env file")
-    }
-    await page.goto(LANDING_PAGE)
-    await landingPage.clicarNoBotaoAperteOPlay()
-    await landingPage.cadastrarNovoLead(leadName, leadEmail)
+    await landingPage.cadastrarNovoLead(nome, email)
 
     const message = "O endereço de e-mail fornecido já está registrado em nossa fila de espera."
     await toastComponent.checkToastMessage(message)
