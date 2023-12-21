@@ -51,7 +51,7 @@ test.describe('Adicionando Leads', () => {
 
 
 
-  test('não deve cadastrar um lead quando o e-mail já existe @temp', async ({ page, request }) => {
+  test('não deve cadastrar um lead quando o e-mail já existe @regression', async ({ page, request }) => {
     const landingPage = new LandingPage(page)
     const toastComponent = new ToastComponent(page)
     const zombiePlusAPI = new ZombiePlusAPI(request)
