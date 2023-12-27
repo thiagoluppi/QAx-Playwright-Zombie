@@ -106,6 +106,25 @@ Esses testes visam validar as operações de cadastro, busca e exclusão de film
     - Ação: Preencher todos os campos obrigatórios e marcar o filme como destaque.
     - Resultado esperado: O filme marcado como destaque é exibida na landing page.
 
+____________________________________________________________________________________________________________________________________________
+### Aula - Interagindo com GetByLabel.
+
+Nessa aula o Papito deu uma dica interessante sobre como o playwright é capaz de encontrar o elemento de input apenas usando o GetByLabel. Mas isso só acontece se o `for` do `label` tiver o mesmo `id`
+
+![Alt text](image-1.png)
+
+Como é possível observar na imagem o `label for="title"` é igual ao `id="title"` e somente por isso é possível usar o label e encontrar o campo de input apenas usando o GetByLabel
+
+```
+<label for="title" class="sc-kAyceB cmzCot">
+    <span class="field-name">Titulo do filme</span>
+    <input name="title" id="title" placeholder="Digite aqui" value="">
+</label>
+```
+____________________________________________________________________________________________________________________________________________
+
+
+
 ### Busca
 
 - Busca de filmes

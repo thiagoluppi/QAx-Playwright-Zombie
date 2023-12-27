@@ -19,7 +19,7 @@ test.beforeEach(async ({ page }) => {
     }
     await page.goto(LOGIN_PAGE)
 
-    await loginPage.submitAdminCredencials(adminEmail, adminSenha)    
+    await loginPage.submitAdminCredencials(adminEmail, adminSenha)
 })
 
 test.describe('Movies', () => {
@@ -27,8 +27,7 @@ test.describe('Movies', () => {
     test('deve cadastrar um filme @temp', async ({ page }) => {
         const moviesPage = new MoviesPage(page)
 
-        await moviesPage.addMovie()
+        await moviesPage.addMovie("titulo do filme", "Sinopse do filme", "Company", "2023")
         await page.waitForTimeout(5000)
-
     })
 })
