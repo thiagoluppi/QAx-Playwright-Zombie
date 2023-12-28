@@ -27,7 +27,7 @@ test.describe('Movies', () => {
     test('deve cadastrar um filme @temp', async ({ page }) => {
         const moviesPage = new MoviesPage(page)
 
-        await moviesPage.addMovie("titulo do filme", "Sinopse do filme", "Company", "2023")
+        await moviesPage.addMovie("titulo do filme", "Sinopse do filme", "Netflix", "1970")
         await page.waitForTimeout(5000)
     })
 })
