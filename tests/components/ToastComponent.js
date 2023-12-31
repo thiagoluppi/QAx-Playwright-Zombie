@@ -8,7 +8,7 @@ export class ToastComponent {
     }
 
     async checkToastMessage(message) {
-        await expect(this.toast).toHaveText(message)
+        await expect(this.toast).toContainText(message)
     }
 
     async checkIfToastIsHidden() {

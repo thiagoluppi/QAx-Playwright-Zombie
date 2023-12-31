@@ -1,4 +1,5 @@
 {
+  "movies": {
     "guerra_mundial_z": {
       "title": "Guerra Mundial Z",
       "overview": "Um ex-investigador da ONU é chamado para investigar a propagação de um vírus mortal que transforma as vítimas em zumbis, ameaçando dizimar a população mundial.",
@@ -26,7 +27,7 @@
     "exterminio": {
       "title": "Extermínio",
       "overview": "Um vírus transforma as pessoas em raivosos assassinos. Um grupo tenta sobreviver na desolada Londres.",
-      "company": "Fox Searchlight Pictures",
+      "company": "Fox Entertainment",
       "release_year": 2002,
       "featured": true,
       "cover": "/caminho/para/exterminio.png"
@@ -80,4 +81,4 @@
       "cover": "/caminho/para/a_volta_dos_mortos_vivos.png"
     }
   }
-  
+}
