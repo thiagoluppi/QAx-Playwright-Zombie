@@ -14,6 +14,8 @@ const LOGIN_PAGE = process.env.LOGIN_PAGE
 const adminEmail = process.env.ADMIN_EMAIL
 const adminSenha = process.env.ADMIN_SENHA
 
+const db = new Database()
+
 const movie = data.movies
 
 test.beforeEach(async ({ page }) => {
@@ -27,14 +29,18 @@ test.beforeEach(async ({ page }) => {
     await loginPage.submitAdminCredencials(adminEmail, adminSenha)
 })
 
+test.afterAll(async () => {
+    await db.close()
+})
+
 test.describe('Movies', () => {
 
     test('deve cadastrar um filme @temp', async ({ page }) => {
         const moviesPage = new MoviesPage(page)
         const toastComponent = new ToastComponent(page)
-        const db = new Database()
 
-        console.log(await db.deleteMovies())
+
+        await db.deleteMovies()
 
         await moviesPage.addMovie(
             movie.exterminio.title,
