@@ -38,6 +38,11 @@ export class Database {
         return res.rows
     }
 
+    async deleteMovies() {
+        const res = await this.query("DELETE FROM public.movies")
+        return res.rows
+    }
+
     async close() {
         await this.pool.end()
     }
