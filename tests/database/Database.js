@@ -13,34 +13,37 @@ export class Database {
         })
     }
 
-    async query(text, params) {
-        const start = Date.now()
-        const res = await this.pool.query(text, params)
-        const duration = Date.now() - start
-        console.log('executed query', { text, duration, rows: res.rowCount })
-        return res
+    async sendQueries(text, params) {
+        try {
+            const start = Date.now()
+            const res = await this.pool.query(text, params)
+            const duration = Date.now() - start
+            console.log('executed query', { text, duration, rows: res.rowCount })
+            return res
+        } catch (error) {
+            console.error('Error executing query', { text, error: error.message })
+            // Pode lançar o erro novamente ou lidar com ele de outra maneira
+            throw error
+        }
     }
 
     async getLeads() {
-        const res = await this.query("SELECT * FROM public.leads")
+        const res = await this.sendQueries("SELECT * FROM public.leads")
         return res.rows
     }
 
     async getALead(leadName) {
         // Note que o placeholder para o parâmetro é $1 e não há interpolação na string da consulta
-        const res = await this.query("SELECT id FROM public.leads WHERE name = $1;", [leadName]);
+        const res = await this.sendQueries("SELECT id FROM public.leads WHERE name = $1;", [leadName])
         return res
     }
 
-
     async deleteLeads() {
-        const res = await this.query("DELETE FROM public.leads")
-        return res.rows
+        const res = await this.sendQueries("DELETE FROM public.leads")
     }
 
     async deleteMovies() {
-        const res = await this.query("DELETE FROM public.movies")
-        return res.rows
+        const res = await this.sendQueries("DELETE FROM public.movies")
     }
 
     async close() {
