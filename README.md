@@ -123,7 +123,40 @@ Como é possível observar na imagem o `label for="title"` é igual ao `id="titl
 ```
 ____________________________________________________________________________________________________________________________________________
 
+### Aula - Injetando Page Objects dentro do contexto.
 
+Nessa aula foi ensinado como criar um outro "page" de contexto do Playwright e o Papito colocou as importações das Page Objects.
+
+Eu não fiz isso, pois do modo como eu criei o projeto, diferente do professor, fazer isso iria desorganizar o projeto.
+
+Portanto eu usei apenas page do modo original, mas com a classe "index.js" que o professor demonstrou.
+
+Criar nossos próprios contextos é bom no caso de precisar trabalhar com vários agentes que precisam estar logados a um sistema. Por exemplo, criar um contexto diferente para um atendente, para um lider de equipe ou para um gerente.
+
+```
+const { test: base } = require('@playwright/test')
+
+const { LandingPage } = require('../pages/LandingPage')
+const { LoginPage } = require('../pages/LoginPage')
+const { MoviesPage } = require('../pages/MoviesPage')
+const { Toast } = require('../pages/Components')
+
+const test = base.extend({
+  page: async ({ page }, use) => {
+    await use({
+      ...page,
+      landing: new LandingPage(page),
+      login: new LoginPage(page),
+      movies: new MoviesPage(page),
+      toast: new Toast(page)
+    })
+  }
+})
+
+export { test }
+
+```
+____________________________________________________________________________________________________________________________________________
 
 ### Busca
 
