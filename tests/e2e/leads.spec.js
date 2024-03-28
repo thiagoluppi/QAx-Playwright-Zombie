@@ -49,8 +49,6 @@ test.describe('Adicionando Leads', () => {
     console.log(await db.getLeads())
   })
 
-
-
   test('não deve cadastrar um lead quando o e-mail já existe @regression', async ({ page, request }) => {
     const landingPage = new LandingPage(page)
     const toastComponent = new ToastComponent(page)
