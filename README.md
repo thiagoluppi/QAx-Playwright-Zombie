@@ -154,7 +154,6 @@ const test = base.extend({
 })
 
 export { test }
-
 ```
 
 "const { test: base } = require('@playwright/test')"
