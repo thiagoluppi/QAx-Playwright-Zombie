@@ -156,11 +156,11 @@ const test = base.extend({
 export { test }
 ```
 
-"const { test: base } = require('@playwright/test')"
-test: base - Isso significa que estamos dando um alias para "test", nesse caso "base"
+`const { test: base } = require('@playwright/test')`
+`test: base` Isso significa que estamos dando um alias para `test`, nesse caso `base`
 
 Isso é para que possamos usar o nome "test" na linha:
-"const test = base.extend"
+`const test = base.extend`
 ____________________________________________________________________________________________________________________________________________
 
 ### Busca
