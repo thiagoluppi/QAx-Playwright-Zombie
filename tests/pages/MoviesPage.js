@@ -17,11 +17,25 @@ export class MoviesPage {
         this.yearsComboIndicatorArrow = this.yearsCombo.locator(".react-select__indicator")
         this.yearsList = this.yearsCombo.locator(".react-select__menu .react-select__menu-list .react-select__option")
 
-        this.cadastrarButton = this.page.getByRole("button", {name: "Cadastrar"})
+        this.cadastrarButton = this.page.getByRole("button", { name: "Cadastrar" })
+
+        this.moviesPageAlert = this.page.locator(".alert")
+    }
+
+    async addMovieButtonClick() {
+        this.addContentButton.click()
+    }
+
+    async cadastrarButtonClick() {
+        this.cadastrarButton.click()
+    }
+
+    async alertHaveText(text) {
+        await expect(this.moviesPageAlert).toHaveText(text)
     }
 
     async addMovie(title, overview, company, release_year) {
-        await this.addContentButton.click()
+        await this.addMovieButtonClick()
 
         await this.movieTitleInputField.click()
         await this.movieTitleInputField.fill(title)
@@ -35,6 +49,6 @@ export class MoviesPage {
         await this.yearsComboIndicatorArrow.click()
         await this.yearsList.filter({ hasText: release_year }).click()
 
-        await this.cadastrarButton.click()
+        await this.cadastrarButtonClick()
     }
 }
