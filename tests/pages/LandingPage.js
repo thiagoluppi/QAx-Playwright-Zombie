@@ -10,7 +10,7 @@ export class LandingPage {
         this.informeSeuNomeField = this.filaDeEsperaModal.getByPlaceholder("Informe seu nome")
         this.informeSeuEmailField = this.filaDeEsperaModal.getByPlaceholder("Informe seu email")
         this.queroEntrarNaFilaBt = this.filaDeEsperaModal.getByText("Quero entrar na fila!")
-        this.alert = this.filaDeEsperaModal.locator(".alert")
+        this.landingPageAlert = this.filaDeEsperaModal.locator(".alert")
     }
 
     async clicarNoBotaoAperteOPlay() {
@@ -26,8 +26,6 @@ export class LandingPage {
     }
 
     async checkAlertText(text) {
-        await expect(this.alert).toHaveText(text)
+        await expect(this.landingPageAlert).toHaveText(text)
     }
-
-
 }

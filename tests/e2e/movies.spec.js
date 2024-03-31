@@ -35,7 +35,7 @@ test.afterAll(async () => {
 
 test.describe('Movies', () => {
 
-    test('deve cadastrar um filme @temp', async ({ page }) => {
+    test('deve cadastrar um filme @regression', async ({ page }) => {
         const moviesPage = new MoviesPage(page)
         const toastComponent = new ToastComponent(page)
 
@@ -50,5 +50,21 @@ test.describe('Movies', () => {
 
         const message = "Cadastro realizado com sucesso!"
         await toastComponent.checkToastMessage(message)
+    })
+
+    test('não deve cadastrar um filme sem os campos obrigatórios @regression', async ({ page }) => {
+        const moviesPage = new MoviesPage(page)
+
+        await db.deleteMovies()
+
+        await moviesPage.addMovieButtonClick()
+        await moviesPage.cadastrarButtonClick()
+
+        await moviesPage.alertHaveText([
+            'Por favor, informe o título.',
+            'Por favor, informe a sinopse.',
+            'Por favor, informe a empresa distribuidora.',
+            'Por favor, informe o ano de lançamento.'
+        ])
     })
 })
