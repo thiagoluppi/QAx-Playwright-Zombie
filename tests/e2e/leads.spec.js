@@ -37,8 +37,6 @@ test.describe('Adicionando Leads', () => {
     const leadActions = new LeadActions(page)
     const toastComponent = new ToastComponent(page)
 
-    await leadActions.iniciarCadastroLead()
-
     await leadActions.cadastrarNovoLead(nome, email)
 
     const message = "Agradecemos por compartilhar seus dados conosco. Em breve, nossa equipe entrará em contato!"
@@ -65,7 +63,6 @@ test.describe('Adicionando Leads', () => {
 
     expect(newLead.ok()).toBeTruthy()
 
-    await leadActions.iniciarCadastroLead()
     await leadActions.cadastrarNovoLead(nome, email)
 
     const message = "O endereço de e-mail fornecido já está registrado em nossa fila de espera."
@@ -80,8 +77,6 @@ test.describe('Adicionando Leads', () => {
 
     const leadName = faker.person.fullName()
     const leadEmail = faker.internet.email()
-
-    await leadActions.iniciarCadastroLead()
 
     await leadActions.cadastrarNovoLead(leadName, leadEmail)
 
@@ -99,8 +94,6 @@ test.describe('Adicionando Leads', () => {
   test('não deve cadastrar com e-mail incorreto @regression', async ({ page }) => {
     const leadActions = new LeadActions(page)
 
-    await leadActions.iniciarCadastroLead()
-
     await leadActions.cadastrarNovoLead(nome, emailIncorreto)
 
     await leadActions.verificarTextoAlerta("Email incorreto")
@@ -108,8 +101,6 @@ test.describe('Adicionando Leads', () => {
 
   test('não deve cadastrar com campo nome vazio @regression', async ({ page }) => {
     const leadActions = new LeadActions(page)
-
-    await leadActions.iniciarCadastroLead()
 
     await leadActions.cadastrarNovoLead(nomeVazio, email)
 
@@ -119,8 +110,6 @@ test.describe('Adicionando Leads', () => {
   test('não deve cadastrar com campo e-mail vazio @regression', async ({ page }) => {
     const leadActions = new LeadActions(page)
 
-    await leadActions.iniciarCadastroLead()
-
     await leadActions.cadastrarNovoLead(nome, emailVazio)
 
     await leadActions.verificarTextoAlerta(["Campo obrigatório"])
@@ -128,8 +117,6 @@ test.describe('Adicionando Leads', () => {
 
   test('não deve cadastrar com ambos os campos nome e e-mail vazios @regression', async ({ page }) => {
     const leadActions = new LeadActions(page)
-
-    await leadActions.iniciarCadastroLead()
 
     await leadActions.cadastrarNovoLead(nomeVazio, emailVazio)
 

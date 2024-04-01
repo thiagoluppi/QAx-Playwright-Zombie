@@ -22,7 +22,10 @@ export class LeadActions {
     // Ação para preencher informações do lead
     async preencherInformacoesLead(nome, email) {
         await this.informeSeuNomeField.fill(nome)
+        await expect(this.informeSeuNomeField).toHaveValue(nome)
+
         await this.informeSeuEmailField.fill(email)
+        await expect(this.informeSeuEmailField).toHaveValue(email)
     }
 
     // Ação para finalizar o cadastro do lead
@@ -32,8 +35,19 @@ export class LeadActions {
 
     // Combinação de ações para cadastrar um novo lead
     async cadastrarNovoLead(nome, email) {
-        // await this.iniciarCadastroLead()
+        await this.iniciarCadastroLead()
         await this.preencherInformacoesLead(nome, email)
+
+        try {
+            // Tenta realizar as checagens dos valores dos campos
+            await expect(this.informeSeuNomeField).toHaveValue(nome)
+            await expect(this.informeSeuEmailField).toHaveValue(email)
+        } catch (error) {
+            // Captura e trata erros que possam ocorrer durante as checagens
+            console.error("Erro ao verificar os valores dos campos: ", error)
+            throw new Error("Falha na verificação dos valores dos campos de cadastro de lead.")
+        }
+
         await this.finalizarCadastroLead()
     }
 
@@ -41,21 +55,4 @@ export class LeadActions {
     async verificarTextoAlerta(text) {
         await expect(this.landingPageAlert).toHaveText(text)
     }
-
-
-    // async clicarNoBotaoAperteOPlay() {
-    //     await this.botaoApertePlay.click()
-    //     await expect(this.filaDeEsperaModalHeading).toHaveText("Fila de espera")
-    // }
-
-    // async cadastrarNovoLead(nome, email) {
-    //     await this.informeSeuNomeField.fill(nome)
-    //     await this.informeSeuEmailField.fill(email)
-
-    //     await this.queroEntrarNaFilaBt.click()
-    // }
-
-    // async checkAlertText(text) {
-    //     await expect(this.landingPageAlert).toHaveText(text)
-    // }
 }

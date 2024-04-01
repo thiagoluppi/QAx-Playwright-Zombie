@@ -1,6 +1,6 @@
 // @ts-check
 const { test } = require("@playwright/test")
-const { Login } = require("../actions/Login")
+const { LoginActions } = require("../actions/LoginActions")
 const { ToastComponent } = require("../components/ToastComponent")
 
 require('dotenv').config()
@@ -24,51 +24,51 @@ test.beforeEach(async ({ page }) => {
 test.describe('Login', () => {
 
   test('deve logar como adminstrador @regression', async ({ page }) => {
-    const login = new Login(page)
+    const loginActions = new LoginActions(page)
 
-    await login.login(adminEmail, adminSenha)
-    await login.verifyLogin(MOVIES_PAGE)
+    await loginActions.login(adminEmail, adminSenha)
+    await loginActions.verifyLogin(MOVIES_PAGE)
   })
 
   test('não deve logar com senha incorreta @regression', async ({ page }) => {
-    const login = new Login(page)
+    const loginActions = new LoginActions(page)
     const toastComponent = new ToastComponent(page)
 
-    await login.login(adminEmail, adminSenhaIncorreta)
+    await loginActions.login(adminEmail, adminSenhaIncorreta)
 
     const message = "Oops!Ocorreu um erro ao tentar efetuar o login. Por favor, verifique suas credenciais e tente novamente."
     await toastComponent.checkToastMessage(message)
   })
 
   test('não deve logar com campo email inválido @regression', async ({ page }) => {
-    const login = new Login(page)
+    const loginActions = new LoginActions(page)
 
-    await login.login(adminEmailInvalido, adminSenha)
+    await loginActions.login(adminEmailInvalido, adminSenha)
 
-    await login.verifyLoginFormAlert("Email incorreto")
+    await loginActions.verifyLoginFormAlert("Email incorreto")
   })
 
   test('não deve logar com campo email vazio @regression', async ({ page }) => {
-    const login = new Login(page)
+    const loginActions = new LoginActions(page)
 
-    await login.login(adminEmailVazio, adminSenha)
+    await loginActions.login(adminEmailVazio, adminSenha)
 
-    await login.verifyLoginFormAlert("Campo obrigatório")
+    await loginActions.verifyLoginFormAlert("Campo obrigatório")
   })
 
   test('não deve logar com campo senha vazio @regression', async ({ page }) => {
-    const login = new Login(page)
+    const loginActions = new LoginActions(page)
 
-    await login.login(adminEmail, adminSenhaVazio)
+    await loginActions.login(adminEmail, adminSenhaVazio)
 
-    await login.verifyLoginFormAlert("Campo obrigatório")
+    await loginActions.verifyLoginFormAlert("Campo obrigatório")
   })
 
   test('não deve logar quando nenhum campo é preenchido @regression', async ({ page }) => {
-    const login = new Login(page)
+    const loginActions = new LoginActions(page)
 
-    await login.login(adminEmailVazio, adminSenhaVazio)
+    await loginActions.login(adminEmailVazio, adminSenhaVazio)
 
-    await login.verifyLoginFormAlert(["Campo obrigatório", "Campo obrigatório"])
+    await loginActions.verifyLoginFormAlert(["Campo obrigatório", "Campo obrigatório"])
   })
 })
