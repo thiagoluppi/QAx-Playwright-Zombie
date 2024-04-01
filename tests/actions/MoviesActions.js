@@ -1,6 +1,6 @@
 const { expect } = require("@playwright/test")
 
-export class MoviesPage {
+export class MoviesActions {
     constructor(page) {
         this.page = page
         this.addContentButton = this.page.locator("a[href$='register']")
@@ -22,33 +22,39 @@ export class MoviesPage {
         this.moviesPageAlert = this.page.locator(".alert")
     }
 
-    async addMovieButtonClick() {
-        this.addContentButton.click()
+    async navigateToAddMovie() {
+        await this.addContentButton.click()
     }
 
-    async cadastrarButtonClick() {
-        this.cadastrarButton.click()
+    async fillMovieDetails(title, overview) {
+        await this.movieTitleInputField.fill(title)
+        await this.overviewField.fill(overview)
     }
 
-    async alertHaveText(text) {
+    async selectCompany(company) {
+        await this.companyComboIndicatorArrow.click()
+        await this.companyList.filter({ hasText: company }).click()
+    }
+
+    async selectReleaseYear(release_year) {
+        await this.yearsComboIndicatorArrow.click()
+        await this.yearsList.filter({ hasText: release_year }).click()
+    }
+
+    async submitMovieRegistration() {
+        await this.cadastrarButton.click()
+    }
+
+    async verifyAlertMessage(text) {
         await expect(this.moviesPageAlert).toHaveText(text)
     }
 
+    // Método que combina todas as ações para adicionar um filme
     async addMovie(title, overview, company, release_year) {
-        await this.addMovieButtonClick()
-
-        await this.movieTitleInputField.click()
-        await this.movieTitleInputField.fill(title)
-
-        await this.overviewField.click()
-        await this.overviewField.fill(overview)
-
-        await this.companyComboIndicatorArrow.click()
-        await this.companyList.filter({ hasText: company }).click()
-
-        await this.yearsComboIndicatorArrow.click()
-        await this.yearsList.filter({ hasText: release_year }).click()
-
-        await this.cadastrarButtonClick()
+        await this.navigateToAddMovie()
+        await this.fillMovieDetails(title, overview)
+        await this.selectCompany(company)
+        await this.selectReleaseYear(release_year)
+        await this.submitMovieRegistration()
     }
 }

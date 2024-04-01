@@ -1,7 +1,7 @@
 // @ts-check
 const { test } = require("@playwright/test")
-const { LoginPage } = require("../pages/LoginPage")
-const { MoviesPage } = require("../pages/MoviesPage")
+const { LoginActions } = require("../actions/LoginActions")
+const { MoviesActions } = require("../actions/MoviesActions")
 const { ToastComponent } = require("../components/ToastComponent")
 const { Database } = require("../database/Database")
 
@@ -19,14 +19,14 @@ const db = new Database()
 const movie = data.movies
 
 test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page)
+    const loginActions = new LoginActions(page)
 
     if (!LOGIN_PAGE) {
         throw new Error("LOGIN_PAGE is not defined in your env file")
     }
     await page.goto(LOGIN_PAGE)
 
-    await loginPage.submitAdminCredencials(adminEmail, adminSenha)
+    await loginActions.login(adminEmail, adminSenha)
 })
 
 test.afterAll(async () => {
@@ -36,13 +36,12 @@ test.afterAll(async () => {
 test.describe('Movies', () => {
 
     test('deve cadastrar um filme @regression', async ({ page }) => {
-        const moviesPage = new MoviesPage(page)
+        const moviesActions = new MoviesActions(page)
         const toastComponent = new ToastComponent(page)
-
 
         await db.deleteMovies()
 
-        await moviesPage.addMovie(
+        await moviesActions.addMovie(
             movie.exterminio.title,
             movie.exterminio.overview,
             movie.exterminio.company,
@@ -53,14 +52,14 @@ test.describe('Movies', () => {
     })
 
     test('não deve cadastrar um filme sem os campos obrigatórios @regression', async ({ page }) => {
-        const moviesPage = new MoviesPage(page)
+        const moviesActions = new MoviesActions(page)
 
         await db.deleteMovies()
 
-        await moviesPage.addMovieButtonClick()
-        await moviesPage.cadastrarButtonClick()
+        await moviesActions.navigateToAddMovie()
+        await moviesActions.submitMovieRegistration()
 
-        await moviesPage.alertHaveText([
+        await moviesActions.verifyAlertMessage([
             'Por favor, informe o título.',
             'Por favor, informe a sinopse.',
             'Por favor, informe a empresa distribuidora.',
