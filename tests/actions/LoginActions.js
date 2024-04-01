@@ -41,19 +41,4 @@ export class LoginActions {
     async verifyLoginFormAlert(text) {
         await expect(this.loginFormAlert).toHaveText(text)
     }
-
-    // async submitAdminCredencials(email, password) {
-    //     await this.emailField.fill(email)
-    //     await this.senhaField.fill(password)
-    //     await this.entrarBt.click()
-    // }
-
-    // async isLoggedIn() {
-    //     await this.page.waitForLoadState("domcontentloaded")
-    //     await expect(this.entrarBt).not.toBeVisible()
-    // }
-
-    // async checkLoginFormAlertText(text) {
-    //     await expect(this.loginFormAlert).toHaveText(text)
-    // }
 }
