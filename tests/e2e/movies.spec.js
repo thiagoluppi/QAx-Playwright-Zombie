@@ -43,11 +43,7 @@ test.describe('Movies', () => {
 
         await db.deleteMovies()
 
-        await moviesActions.addMovie(
-            movie.exterminio.title,
-            movie.exterminio.overview,
-            movie.exterminio.company,
-            movie.exterminio.release_year)
+        await moviesActions.addMovie(movie.guerra_mundial_z)
 
         const message = "Cadastro realizado com sucesso!"
         await toastComponent.checkToastMessage(message)
