@@ -27,7 +27,7 @@ test.describe('Login', () => {
     const loginActions = new LoginActions(page)
 
     await loginActions.login(adminEmail, adminSenha)
-    await loginActions.verifyLogin(MOVIES_PAGE)
+    await loginActions.verifyLogin(MOVIES_PAGE, "Admin")
   })
 
   test('não deve logar com senha incorreta @regression', async ({ page }) => {
