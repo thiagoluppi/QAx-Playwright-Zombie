@@ -11,6 +11,7 @@ const data = require("../support/fixtures/movies.json")
 require('dotenv').config()
 
 const LOGIN_PAGE = process.env.LOGIN_PAGE
+const MOVIES_PAGE = process.env.MOVIES_PAGE
 const adminEmail = process.env.ADMIN_EMAIL
 const adminSenha = process.env.ADMIN_SENHA
 
@@ -27,6 +28,7 @@ test.beforeEach(async ({ page }) => {
     await page.goto(LOGIN_PAGE)
 
     await loginActions.login(adminEmail, adminSenha)
+    await loginActions.verifyLogin(MOVIES_PAGE, "Admin")
 })
 
 test.afterAll(async () => {

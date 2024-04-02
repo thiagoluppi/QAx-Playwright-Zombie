@@ -10,6 +10,8 @@ export class LoginActions {
         this.entrarBt = this.loginForm.getByText("Entrar")
 
         this.loginFormAlert = this.loginForm.locator("span[class$=alert]")
+
+        this.loggedUser = this.page.locator(".logged-user")
     }
 
     // Método para preencher o formulário de login
@@ -32,9 +34,10 @@ export class LoginActions {
     }
 
     // Verifica se o usuário está logado verificando a visibilidade do botão de entrar
-    async verifyLogin(expectedUrl) {
+    async verifyLogin(expectedUrl, loggedUser) {
         await expect(this.entrarBt).not.toBeVisible()
         await expect(this.page).toHaveURL(expectedUrl)
+        await expect(this.loggedUser).toHaveText(`Olá, ${loggedUser}`)
     }
 
     // Verifica o texto de alerta no formulário de login
