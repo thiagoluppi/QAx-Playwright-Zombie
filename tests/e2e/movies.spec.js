@@ -1,7 +1,7 @@
 // @ts-check
 const { test } = require("@playwright/test")
-const { LoginActions } = require("../actions/LoginActions")
-const { MoviesActions } = require("../actions/MoviesActions")
+const { LoginActions } = require("../support/actions/LoginActions")
+const { MoviesActions } = require("../support/actions/MoviesActions")
 const { ToastComponent } = require("../components/ToastComponent")
 const { Database } = require("../database/Database")
 

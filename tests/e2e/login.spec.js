@@ -1,6 +1,6 @@
 // @ts-check
 const { test } = require("@playwright/test")
-const { LoginActions } = require("../actions/LoginActions")
+const { LoginActions } = require("../support/actions/LoginActions")
 const { ToastComponent } = require("../components/ToastComponent")
 
 require('dotenv').config()

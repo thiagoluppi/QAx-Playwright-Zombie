@@ -1,6 +1,6 @@
 // @ts-check
 const { test, expect } = require("@playwright/test")
-const { LeadActions } = require("../actions/LeadActions")
+const { LeadActions } = require("../support/actions/LeadActions")
 const { ToastComponent } = require("../components/ToastComponent")
 const { Database } = require("../database/Database")
 const { ZombiePlusAPI } = require("../api/ZombiePlusAPI")
