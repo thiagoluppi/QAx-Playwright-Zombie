@@ -17,6 +17,8 @@ export class MoviesActions {
         this.yearsComboIndicatorArrow = this.yearsCombo.locator(".react-select__indicator")
         this.yearsList = this.yearsCombo.locator(".react-select__menu .react-select__menu-list .react-select__option")
 
+        this.escolherArquivoBt = this.page.locator("input[name=cover]")
+
         this.cadastrarButton = this.page.getByRole("button", { name: "Cadastrar" })
 
         this.moviesPageAlert = this.page.locator(".alert")
@@ -41,6 +43,10 @@ export class MoviesActions {
         await this.yearsList.filter({ hasText: release_year }).click()
     }
 
+    async uploadCover(cover) {
+        this.escolherArquivoBt.setInputFiles("tests/support/fixtures" + cover)
+    }
+
     async submitMovieRegistration() {
         await this.cadastrarButton.click()
     }
@@ -50,11 +56,12 @@ export class MoviesActions {
     }
 
     // Método que combina todas as ações para adicionar um filme
-    async addMovie(title, overview, company, release_year) {
+    async addMovie(movie) {
         await this.navigateToAddMovie()
-        await this.fillMovieDetails(title, overview)
-        await this.selectCompany(company)
-        await this.selectReleaseYear(release_year)
+        await this.fillMovieDetails(movie.title, movie.overview)
+        await this.selectCompany(movie.company)
+        await this.selectReleaseYear(movie.release_year)
+        await this.uploadCover(movie.cover)
         await this.submitMovieRegistration()
     }
 }
