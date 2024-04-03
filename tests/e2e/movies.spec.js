@@ -17,7 +17,7 @@ const adminSenha = process.env.ADMIN_SENHA
 
 const db = new Database()
 
-const movie = data.movies
+const movies = data.movies
 
 test.beforeEach(async ({ page }) => {
     const loginActions = new LoginActions(page)
@@ -43,7 +43,7 @@ test.describe('Movies', () => {
 
         await db.deleteMovies()
 
-        await moviesActions.addMovie(movie.guerra_mundial_z)
+        await moviesActions.addMovie(movies.guerra_mundial_z)
 
         const message = "Cadastro realizado com sucesso!"
         await toastComponent.checkToastMessage(message)
@@ -63,5 +63,25 @@ test.describe('Movies', () => {
             'Por favor, informe a empresa distribuidora.',
             'Por favor, informe o ano de lançamento.'
         ])
+    })
+
+    test('cadastrando todos os filmes do arquivo @temp', async ({ page }) => {
+        const moviesActions = new MoviesActions(page)
+        const toastComponent = new ToastComponent(page)
+
+        await db.deleteMovies()
+
+        for (const movieKey in movies) {
+            const movie = movies[movieKey]
+            await moviesActions.addMovie(movie)
+
+            const message = "Cadastro realizado com sucesso!"
+            await toastComponent.checkToastMessage(message)
+
+            // Aguardar a mensagem de sucesso desaparecer antes de proceder, se necessário
+            // Isso pode ser importante para evitar sobreposições de mensagens ou estados de UI que podem interferir no cadastro do próximo filme
+            // Exemplo (ajuste conforme a necessidade):
+            await toastComponent.waitForToastToDisappear()
+        }
     })
 })
