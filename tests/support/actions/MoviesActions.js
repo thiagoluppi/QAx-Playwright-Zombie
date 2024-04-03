@@ -22,6 +22,8 @@ export class MoviesActions {
         this.cadastrarButton = this.page.getByRole("button", { name: "Cadastrar" })
 
         this.moviesPageAlert = this.page.locator(".alert")
+
+        this.featuredSlideBt = this.page.locator(".featured .react-switch")
     }
 
     async navigateToAddMovie() {
@@ -55,6 +57,10 @@ export class MoviesActions {
         await expect(this.moviesPageAlert).toHaveText(text)
     }
 
+    async clickFeaturedButton() {
+        this.featuredSlideBt.click()
+    }
+
     // Método que combina todas as ações para adicionar um filme
     async addMovie(movie) {
         await this.navigateToAddMovie()
@@ -62,6 +68,8 @@ export class MoviesActions {
         await this.selectCompany(movie.company)
         await this.selectReleaseYear(movie.release_year)
         await this.uploadCover(movie.cover)
+        // Se movie.featured é true, então chama a função clickFeaturedButton
+        if (movie.featured) { await this.clickFeaturedButton() }
         await this.submitMovieRegistration()
     }
 }
