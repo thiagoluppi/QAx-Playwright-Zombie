@@ -14,4 +14,11 @@ export class ToastComponent {
     async checkIfToastIsHidden() {
         await expect(this.toast).toBeHidden({ timeout: 10000 })
     }
+
+    async waitForToastToDisappear() {
+        await this.page.waitForSelector(this.toast, {
+            state: 'detached', // Aguarda até que o elemento não esteja mais presente no DOM
+            timeout: 5000 // Especifica um timeout, por exemplo, 5000 milissegundos (5 segundos)
+        }).catch(e => console.log('Toast message did not disappear within timeout', e));
+    }
 }
