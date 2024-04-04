@@ -65,6 +65,24 @@ test.describe('Movies', () => {
         ])
     })
 
+    test('não deve cadastrar um filme repetido @regression', async ({ page }) => {
+        const moviesActions = new MoviesActions(page)
+        const toastComponent = new ToastComponent(page)
+        let message = "Cadastro realizado com sucesso!"
+
+        await db.deleteMovies()
+
+        await moviesActions.addMovie(movies.guerra_mundial_z)
+        await toastComponent.checkToastMessage(message)
+
+        await toastComponent.waitForToastToDisappear()
+
+        message = "Este conteúdo já encontra-se cadastrado no catálogo"
+
+        await moviesActions.addMovie(movies.guerra_mundial_z)
+        await toastComponent.checkToastMessage(message)
+    })
+
     test('cadastrando todos os filmes do arquivo @temp', async ({ page }) => {
         const moviesActions = new MoviesActions(page)
         const toastComponent = new ToastComponent(page)
@@ -81,7 +99,7 @@ test.describe('Movies', () => {
             // Aguardar a mensagem de sucesso desaparecer antes de proceder, se necessário
             // Isso pode ser importante para evitar sobreposições de mensagens ou estados de UI que podem interferir no cadastro do próximo filme
             // Exemplo (ajuste conforme a necessidade):
-            await toastComponent.waitForToastToDisappear()
+            // await toastComponent.waitForToastToDisappear()
         }
     })
 })
