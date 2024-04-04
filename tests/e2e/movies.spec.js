@@ -83,7 +83,7 @@ test.describe('Movies', () => {
         await toastComponent.checkToastMessage(message)
     })
 
-    test('cadastrando todos os filmes do arquivo @temp', async ({ page }) => {
+    test('cadastrando todos os filmes do arquivo @regression', async ({ page }) => {
         const moviesActions = new MoviesActions(page)
         const toastComponent = new ToastComponent(page)
 
