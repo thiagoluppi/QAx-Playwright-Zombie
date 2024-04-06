@@ -59,7 +59,9 @@ test.describe('Adicionando Leads', () => {
     // const leadName = faker.person.fullName()
     // const leadEmail = faker.internet.email()
 
-    const newLead = await zombiePlusAPI.postAPIZombie(APIUrl, nome, email)
+    
+
+    const newLead = await zombiePlusAPI.postAPIZombieCreateNewLead(APIUrl, nome, email)
 
     expect(newLead.ok()).toBeTruthy()
 
