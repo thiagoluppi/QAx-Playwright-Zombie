@@ -4,6 +4,7 @@ const { LoginActions } = require("../support/actions/LoginActions")
 const { MoviesActions } = require("../support/actions/MoviesActions")
 const { ToastComponent } = require("../components/ToastComponent")
 const { Database } = require("../database/Database")
+const { ZombiePlusAPI } = require("../api/ZombiePlusAPI")
 
 const data = require("../support/fixtures/movies.json")
 
@@ -14,6 +15,7 @@ const LOGIN_PAGE = process.env.LOGIN_PAGE
 const MOVIES_PAGE = process.env.MOVIES_PAGE
 const adminEmail = process.env.ADMIN_EMAIL
 const adminSenha = process.env.ADMIN_SENHA
+const APIUrl = process.env.API_URL
 
 const db = new Database()
 
@@ -81,6 +83,27 @@ test.describe('Movies', () => {
 
         await moviesActions.addMovie(movies.guerra_mundial_z)
         await toastComponent.checkToastMessage(message)
+    })
+
+    test('não deve cadastrar um filme repetido - Usando API @temp', async ({ page, request }) => {
+        const moviesActions = new MoviesActions(page)
+        const toastComponent = new ToastComponent(page)
+        const zombiePlusAPI = new ZombiePlusAPI(request)
+
+        await db.deleteMovies()
+
+        const token = await zombiePlusAPI.postAPIZombieGetToken(APIUrl, adminEmail, adminSenha)
+        console.log(token)
+
+        const apiResponse = await zombiePlusAPI.postAPIZombieCreateNewMovie(APIUrl, token, movies.guerra_mundial_z)
+
+        console.log("#### API Response da criação do filme pela API ####")
+        console.log(apiResponse)
+
+        // await moviesActions.addMovie(movies.guerra_mundial_z)
+
+        // const message = "Este conteúdo já encontra-se cadastrado no catálogo"
+        // await toastComponent.checkToastMessage(message)
     })
 
     test('cadastrando todos os filmes do arquivo @regression', async ({ page }) => {
