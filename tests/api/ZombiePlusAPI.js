@@ -1,7 +1,7 @@
 const { expect } = require("@playwright/test")
 
-const fs = require('fs')
-const path = require('path')
+// const fs = require('fs')
+// const path = require('path')
 // const FormData = require('form-data')
 
 export class ZombiePlusAPI {
@@ -11,12 +11,12 @@ export class ZombiePlusAPI {
         this.token = undefined
     }
 
-    async postAPIZombieGetToken(urlApi, adminEmail, adminName) {
+    async postAPIZombieGetToken(urlApi, adminEmail, adminSenha) {
         const urlSessions = urlApi + "/sessions"
         const response = await this.request.post(urlSessions, {
             data: {
                 email: adminEmail,
-                password: adminName
+                password: adminSenha
             }
         })
         expect(response.ok()).toBeTruthy
