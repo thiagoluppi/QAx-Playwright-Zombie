@@ -1,7 +1,13 @@
 # QAx-Playwright-Zombie
 Repositório para o curso de playwright da QAx
 
+Para inicializar a API e o web-client:
 
+/GitHub/QAx-Playwright-Zombie/zombieplus/api
+mande o comando: npm run dev
+
+/GitHub/QAx-Playwright-Zombie/zombieplus/web
+mande o comando: npm run dev
 
 ![ZombiePlusRoadMap](image.png)
 
