@@ -85,7 +85,7 @@ test.describe('Movies', () => {
         await toastComponent.checkToastMessage(message)
     })
 
-    test('não deve cadastrar um filme repetido - Usando API @temp', async ({ page, request }) => {
+    test('não deve cadastrar um filme repetido - Usando API @regression', async ({ page, request }) => {
         const moviesActions = new MoviesActions(page)
         const toastComponent = new ToastComponent(page)
         const zombiePlusAPI = new ZombiePlusAPI(request)

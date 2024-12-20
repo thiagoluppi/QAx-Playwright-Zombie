@@ -55,7 +55,10 @@ Eu criei um shell script para poder definir o número de workers que seriam exec
 É preciso dar permissão de execução para o novo arquivo criado, para isso faça o comando:
 `chmod +x run_regression.sh`
 
-Esse script basicamente verifica se existe uma variavel definida chamada `WORKERS` no comando do console: se não existir ele faz o comando para executar os testes regressivos normalmente:
+Esse script basicamente verifica se existe uma variavel definida chamada `WORKERS` no comando do console: 
+- WORKERS=1 npm run regression
+
+Se não existir ele faz o comando para executar os testes regressivos normalmente, rodando o código com a pré definição do Playwright que a maquina aguenta:
 - npx playwright test --grep @regression
 
 Se a variável existir, então ele executa com a variável e o numero de workers definidos:
